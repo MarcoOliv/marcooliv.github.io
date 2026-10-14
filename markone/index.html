@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO -->
+    <title>MarkOne — O primeiro passo da sua transformação digital</title>
+    <meta name="description" content="MarkOne é o app de rastreamento de hábitos que funciona offline. Crie hábitos, acompanhe streaks, conquistas e muito mais. Disponível para iOS, Android e macOS.">
+    <meta name="keywords" content="habit tracker, rastreador de hábitos, app de hábitos, controle de hábitos, streak, produtividade, rotina, iOS, Android, macOS">
+    <meta name="author" content="Capucho Labs">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://marcooliv.github.io/markone/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="MarkOne — Rastreador de Hábitos">
+    <meta property="og:description" content="O primeiro passo da sua transformação digital. Crie hábitos, acompanhe seu progresso e conquiste seus objetivos.">
+    <meta property="og:image" content="https://marcooliv.github.io/markone/images/logo-icon.png">
+    <meta property="og:url" content="https://marcooliv.github.io/markone/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:locale:alternate" content="en_US">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MarkOne — Rastreador de Hábitos">
+    <meta name="twitter:description" content="O primeiro passo da sua transformação digital.">
+    <meta name="twitter:image" content="https://marcooliv.github.io/markone/images/logo-icon.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/logo-icon.png">
+    <link rel="apple-touch-icon" href="images/logo-icon.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== RESET & VARIABLES ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #1A7B8C;
+            --primary-light: #2AA8BD;
+            --secondary: #4ECDC4;
+            --accent: #5EDDD4;
+            --bg-dark: #0D0D1A;
+            --bg-card: #161629;
+            --bg-card-hover: #1E1E38;
+            --text-primary: #F0F0F5;
+            --text-secondary: #9B9BB0;
+            --text-muted: #6B6B80;
+            --success: #00D9A5;
+            --warning: #FFB830;
+            --gradient-primary: linear-gradient(135deg, #1A7B8C 0%, #4ECDC4 50%, #5EDDD4 100%);
+            --gradient-hero: linear-gradient(160deg, #0D0D1A 0%, #121228 40%, #0D1A1E 100%);
+            --gradient-glow: radial-gradient(ellipse at 50% 0%, rgba(78, 205, 196, 0.15) 0%, transparent 60%);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --shadow-card: 0 4px 24px rgba(0,0,0,0.3), 0 1px 4px rgba(0,0,0,0.2);
+            --shadow-glow: 0 0 60px rgba(78, 205, 196, 0.12);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== UTILITIES ===== */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(78, 205, 196, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(78, 205, 196, 0.4); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: var(--transition);
+            background: transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(13, 13, 26, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(78, 205, 196, 0.08);
+            padding: 10px 0;
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .navbar-brand img {
+            height: 38px;
+            width: 38px;
+            border-radius: 10px;
+        }
+        .navbar-brand span {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+        }
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+        .navbar-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        .navbar-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+        .navbar-links a:hover { color: var(--text-primary); }
+        .navbar-links a:hover::after { width: 100%; }
+        
+        .lang-toggle {
+            background: rgba(78, 205, 196, 0.1);
+            border: 1px solid rgba(78, 205, 196, 0.2);
+            color: var(--secondary);
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .lang-toggle:hover {
+            background: rgba(78, 205, 196, 0.2);
+            border-color: rgba(78, 205, 196, 0.4);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: var(--gradient-hero);
+            overflow: hidden;
+            padding: 120px 0 80px;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 80%;
+            height: 140%;
+            background: radial-gradient(ellipse, rgba(78, 205, 196, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            right: -10%;
+            width: 60%;
+            height: 80%;
+            background: radial-gradient(ellipse, rgba(26, 123, 140, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-content {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(78, 205, 196, 0.1);
+            border: 1px solid rgba(78, 205, 196, 0.2);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 28px;
+        }
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse-glow 2s infinite;
+        }
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 36px;
+            max-width: 480px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: var(--gradient-primary);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(78, 205, 196, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(78, 205, 196, 0.45);
+        }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        .hero-phones {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: fadeIn 1s ease 0.3s forwards;
+            opacity: 0;
+        }
+        .hero-phone-main {
+            width: 280px;
+            border-radius: 32px;
+            box-shadow: var(--shadow-glow), 0 20px 60px rgba(0,0,0,0.5);
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-phone-secondary {
+            width: 220px;
+            border-radius: 28px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+            animation-delay: -2s;
+            opacity: 0.7;
+        }
+        .hero-phone-left {
+            left: -30px;
+            top: 40px;
+            z-index: 1;
+            transform: rotate(-6deg);
+        }
+        .hero-phone-right {
+            right: -30px;
+            top: 40px;
+            z-index: 1;
+            transform: rotate(6deg);
+        }
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .hero-stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        .hero-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ===== SECTIONS COMMON ===== */
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+        .section-label::before {
+            content: '';
+            width: 24px;
+            height: 2px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 560px;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        .section-header .section-subtitle {
+            margin: 0 auto;
+        }
+
+        /* ===== FEATURES ===== */
+        #features {
+            background: var(--gradient-glow), var(--bg-dark);
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: var(--radius);
+            padding: 36px 28px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .feature-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(78, 205, 196, 0.15);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card);
+        }
+        .feature-card:hover::before { opacity: 1; }
+        .feature-icon {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .feature-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .feature-card p {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        /* ===== SCREENSHOTS ===== */
+        #screenshots {
+            background: linear-gradient(180deg, var(--bg-dark) 0%, #0F0F22 100%);
+            overflow: hidden;
+        }
+        .screenshots-track {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 20px 24px 40px;
+            scrollbar-width: none;
+        }
+        .screenshots-track::-webkit-scrollbar { display: none; }
+        .screenshot-item {
+            flex: 0 0 auto;
+            scroll-snap-align: center;
+            position: relative;
+        }
+        .screenshot-item img {
+            width: 260px;
+            border-radius: 24px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            transition: var(--transition);
+        }
+        .screenshot-item:hover img {
+            transform: scale(1.03);
+            box-shadow: var(--shadow-glow), 0 16px 50px rgba(0,0,0,0.5);
+        }
+        .screenshot-label {
+            text-align: center;
+            margin-top: 14px;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ===== PRICING ===== */
+        #pricing {
+            background: var(--gradient-glow), var(--bg-dark);
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .pricing-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: var(--radius-lg);
+            padding: 40px 32px;
+            position: relative;
+            transition: var(--transition);
+        }
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card);
+        }
+        .pricing-card.featured {
+            border-color: rgba(78, 205, 196, 0.3);
+            background: linear-gradient(180deg, rgba(78, 205, 196, 0.06) 0%, var(--bg-card) 40%);
+        }
+        .pricing-card.featured::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            right: 24px;
+            background: var(--gradient-primary);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .pricing-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .pricing-card .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 20px 0 4px;
+        }
+        .pricing-card .price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+        .pricing-card .price-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .pricing-features {
+            list-style: none;
+            margin: 24px 0;
+        }
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+        }
+        .pricing-features li .check {
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .pricing-features li .cross {
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .btn-pricing {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 14px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            margin-top: 8px;
+        }
+        .btn-pricing.primary {
+            background: var(--gradient-primary);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(78, 205, 196, 0.25);
+        }
+        .btn-pricing.primary:hover {
+            box-shadow: 0 6px 24px rgba(78, 205, 196, 0.4);
+            transform: translateY(-2px);
+        }
+        .btn-pricing.outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.12);
+            color: var(--text-primary);
+        }
+        .btn-pricing.outline:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        /* ===== FAQ ===== */
+        #faq {
+            background: var(--bg-dark);
+        }
+        .faq-list {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-align: left;
+            padding: 24px 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+        .faq-question:hover { color: var(--secondary); }
+        .faq-icon {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            transition: var(--transition);
+            flex-shrink: 0;
+            margin-left: 16px;
+        }
+        .faq-item.active .faq-icon { transform: rotate(45deg); color: var(--secondary); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+        .faq-answer p {
+            padding-bottom: 24px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0A0A18;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            padding: 60px 0 32px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        .footer-brand img {
+            height: 36px;
+            width: 36px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.65;
+            max-width: 300px;
+        }
+        .footer h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        .footer-links {
+            list-style: none;
+        }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .footer-links a:hover { color: var(--secondary); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.04);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-bottom p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 1024px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-links { display: none; }
+            .mobile-toggle { display: block; }
+            
+            .navbar-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(13, 13, 26, 0.97);
+                backdrop-filter: blur(20px);
+                padding: 24px;
+                gap: 16px;
+                border-bottom: 1px solid rgba(78, 205, 196, 0.1);
+            }
+
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            .hero p { margin: 0 auto 36px; }
+            .hero-buttons { justify-content: center; }
+            .hero-stats { justify-content: center; }
+            .hero-phone-secondary { display: none; }
+            .hero-phone-main { width: 240px; }
+
+            .features-grid { grid-template-columns: 1fr; }
+            
+            .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+            
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+        }
+
+        /* ===== LANGUAGE SWITCHER ===== */
+        [data-lang="en"] { display: none; }
+        body.lang-en [data-lang="en"] { display: block; }
+        body.lang-en [data-lang="pt"] { display: none; }
+        body.lang-en [data-lang="en"].inline { display: inline; }
+        body.lang-en [data-lang="pt"].inline { display: none; }
+        [data-lang="en"].inline { display: none; }
+        [data-lang="pt"].inline { display: inline; }
+        
+        /* flex items */
+        body.lang-en [data-lang="en"].flex-item { display: flex; }
+        body.lang-en [data-lang="pt"].flex-item { display: none; }
+        [data-lang="en"].flex-item { display: none; }
+        [data-lang="pt"].flex-item { display: flex; }
+        
+        /* list items */
+        body.lang-en [data-lang="en"].list-item { display: list-item; }
+        body.lang-en [data-lang="pt"].list-item { display: none; }
+        [data-lang="en"].list-item { display: none; }
+        [data-lang="pt"].list-item { display: flex; }
+
+        /* grid display */
+        body.lang-en [data-lang="en"].grid-item { display: grid; }
+        body.lang-en [data-lang="pt"].grid-item { display: none; }
+        [data-lang="en"].grid-item { display: none; }
+        [data-lang="pt"].grid-item { display: grid; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="navbar-brand">
+                <img src="images/logo-icon.png" alt="MarkOne Logo">
+                <span>MarkOne</span>
+            </a>
+            <ul class="navbar-links" id="navLinks">
+                <li><a href="#features" data-lang="pt" class="inline">Funcionalidades</a><a href="#features" data-lang="en" class="inline">Features</a></li>
+                <li><a href="#screenshots" data-lang="pt" class="inline">Screenshots</a><a href="#screenshots" data-lang="en" class="inline">Screenshots</a></li>
+                <li><a href="#pricing" data-lang="pt" class="inline">Planos</a><a href="#pricing" data-lang="en" class="inline">Pricing</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button></li>
+            </ul>
+            <button class="mobile-toggle" id="mobileToggle" onclick="toggleMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    <span data-lang="pt" class="inline">Disponível para iOS, Android e macOS</span>
+                    <span data-lang="en" class="inline">Available for iOS, Android & macOS</span>
+                </div>
+                <h1>
+                    <span data-lang="pt">O primeiro passo da sua <span class="gradient-text">transformação digital</span></span>
+                    <span data-lang="en">The first step in your <span class="gradient-text">digital transformation</span></span>
+                </h1>
+                <p data-lang="pt">Rastreie hábitos, construa streaks, desbloqueie conquistas e acompanhe seu progresso. Funciona 100% offline.</p>
+                <p data-lang="en">Track habits, build streaks, unlock achievements and follow your progress. Works 100% offline.</p>
+                
+                <div class="hero-buttons">
+                    <a href="#" class="btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                        App Store
+                    </a>
+                    <a href="#" class="btn-secondary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.04L14.56 12l-3.47-3.63L3.18 23.04zm-.56-1.2L11.6 12 2.62 2.16c-.3.25-.5.64-.5 1.13v17.42c0 .5.2.88.5 1.13zm.56-19.68L11.09 15.63 14.56 12 3.18 1.36l-.56-.56zm15.34 8.04l-3.24-1.77L11.57 12l3.71 3.67 3.24-1.77c.65-.36.65-1.38 0-1.7z"/></svg>
+                        Google Play
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div>
+                        <div class="hero-stat-number">4</div>
+                        <div class="hero-stat-label" data-lang="pt">Plataformas</div>
+                        <div class="hero-stat-label" data-lang="en">Platforms</div>
+                    </div>
+                    <div>
+                        <div class="hero-stat-number">100%</div>
+                        <div class="hero-stat-label">Offline</div>
+                    </div>
+                    <div>
+                        <div class="hero-stat-number">20+</div>
+                        <div class="hero-stat-label" data-lang="pt">Conquistas</div>
+                        <div class="hero-stat-label" data-lang="en">Achievements</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-phones">
+                <img src="images/screenshot-timeline.png" alt="MarkOne Timeline" class="hero-phone-secondary hero-phone-left">
+                <img src="images/screenshot-home.png" alt="MarkOne Home" class="hero-phone-main">
+                <img src="images/screenshot-habits.png" alt="MarkOne Habits" class="hero-phone-secondary hero-phone-right">
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <div class="section-label" data-lang="pt">Funcionalidades</div>
+                <div class="section-label" data-lang="en">Features</div>
+                <h2 class="section-title">
+                    <span data-lang="pt">Tudo que você precisa para <span class="gradient-text">criar novos hábitos</span></span>
+                    <span data-lang="en">Everything you need to <span class="gradient-text">build new habits</span></span>
+                </h2>
+                <p class="section-subtitle" data-lang="pt">Ferramentas poderosas para organizar sua rotina e acompanhar seu progresso diário.</p>
+                <p class="section-subtitle" data-lang="en">Powerful tools to organize your routine and track your daily progress.</p>
+            </div>
+
+            <!-- PT -->
+            <div class="features-grid animate-on-scroll" data-lang="pt" class="grid-item">
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h3>4 Tipos de Frequência</h3>
+                    <p>Semanal, mensal, por intervalo ou meta diária. Configure cada hábito do jeito que funciona para você.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔥</span>
+                    <h3>Streaks Automáticos</h3>
+                    <p>Mantenha sua sequência de dias consecutivos. Visualize seu progresso e não quebre a corrente.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🏆</span>
+                    <h3>20+ Conquistas</h3>
+                    <p>Desbloqueie badges por consistência, total de hábitos e marcos especiais. Gamifique sua rotina.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h3>Estatísticas Detalhadas</h3>
+                    <p>Visão geral, ranking de streaks, progresso semanal e detalhes individuais por hábito.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📋</span>
+                    <h3>Checklists</h3>
+                    <p>Crie listas de compras, tarefas ou o que precisar. Com ícones, cores e progresso visual.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔄</span>
+                    <h3>Sync Multi-dispositivo</h3>
+                    <p>Seus dados sincronizados em tempo real entre iPhone, Android e Mac. Nunca perca nada.</p>
+                </div>
+            </div>
+
+            <!-- EN -->
+            <div class="features-grid animate-on-scroll" data-lang="en" style="display:none;">
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h3>4 Frequency Types</h3>
+                    <p>Weekly, monthly, interval or daily goal. Configure each habit the way that works best for you.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔥</span>
+                    <h3>Automatic Streaks</h3>
+                    <p>Keep your consecutive day streak going. Visualize your progress and don't break the chain.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🏆</span>
+                    <h3>20+ Achievements</h3>
+                    <p>Unlock badges for consistency, habit count and special milestones. Gamify your routine.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h3>Detailed Statistics</h3>
+                    <p>Overview, streak ranking, weekly progress and individual details per habit.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📋</span>
+                    <h3>Checklists</h3>
+                    <p>Create shopping lists, tasks or whatever you need. With icons, colors and visual progress.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔄</span>
+                    <h3>Multi-device Sync</h3>
+                    <p>Your data synced in real time across iPhone, Android and Mac. Never lose anything.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCREENSHOTS -->
+    <section id="screenshots">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <div class="section-label" data-lang="pt">Screenshots</div>
+                <div class="section-label" data-lang="en">Screenshots</div>
+                <h2 class="section-title">
+                    <span data-lang="pt">Veja o MarkOne <span class="gradient-text">em ação</span></span>
+                    <span data-lang="en">See MarkOne <span class="gradient-text">in action</span></span>
+                </h2>
+            </div>
+        </div>
+        <div class="screenshots-track">
+            <div class="screenshot-item">
+                <img src="images/screenshot-home.png" alt="Home Screen">
+                <div class="screenshot-label" data-lang="pt">Início</div>
+                <div class="screenshot-label" data-lang="en">Home</div>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot-habits.png" alt="Habits Screen">
+                <div class="screenshot-label" data-lang="pt">Hábitos</div>
+                <div class="screenshot-label" data-lang="en">Habits</div>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot-timeline.png" alt="Timeline Screen">
+                <div class="screenshot-label" data-lang="pt">Linha do Tempo</div>
+                <div class="screenshot-label" data-lang="en">Timeline</div>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot-calendar.png" alt="Calendar Screen">
+                <div class="screenshot-label" data-lang="pt">Calendário</div>
+                <div class="screenshot-label" data-lang="en">Calendar</div>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot-stats.png" alt="Statistics Screen">
+                <div class="screenshot-label" data-lang="pt">Estatísticas</div>
+                <div class="screenshot-label" data-lang="en">Statistics</div>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot-achievements.png" alt="Achievements Screen">
+                <div class="screenshot-label" data-lang="pt">Conquistas</div>
+                <div class="screenshot-label" data-lang="en">Achievements</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <div class="section-label" data-lang="pt">Planos</div>
+                <div class="section-label" data-lang="en">Pricing</div>
+                <h2 class="section-title">
+                    <span data-lang="pt">Comece grátis, <span class="gradient-text">evolua quando quiser</span></span>
+                    <span data-lang="en">Start free, <span class="gradient-text">upgrade anytime</span></span>
+                </h2>
+            </div>
+
+            <!-- PT -->
+            <div class="pricing-grid animate-on-scroll" data-lang="pt">
+                <div class="pricing-card">
+                    <h3>Gratuito</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Para começar sua jornada</p>
+                    <div class="price">R$ 0 <span>/ sempre</span></div>
+                    <div class="price-note">&nbsp;</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Até 3 hábitos</li>
+                        <li><span class="check">✓</span> 1 checklist</li>
+                        <li><span class="check">✓</span> Estatísticas básicas</li>
+                        <li><span class="check">✓</span> Conquistas</li>
+                        <li><span class="check">✓</span> 100% offline</li>
+                        <li><span class="cross">✕</span> Sincronização</li>
+                        <li><span class="cross">✕</span> Widgets</li>
+                        <li><span class="cross">✕</span> Sugestões</li>
+                    </ul>
+                    <a href="#" class="btn-pricing outline">Começar grátis</a>
+                </div>
+                <div class="pricing-card featured">
+                    <span class="pricing-badge">Popular</span>
+                    <h3 class="gradient-text">Premium</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Para quem leva a sério</p>
+                    <div class="price">R$ 19,90 <span>/ mês</span></div>
+                    <div class="price-note">ou R$ 149,90/ano (economia de 37%)</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Hábitos ilimitados</li>
+                        <li><span class="check">✓</span> Checklists ilimitadas</li>
+                        <li><span class="check">✓</span> Estatísticas completas</li>
+                        <li><span class="check">✓</span> Conquistas</li>
+                        <li><span class="check">✓</span> 100% offline</li>
+                        <li><span class="check">✓</span> Sync multi-dispositivo</li>
+                        <li><span class="check">✓</span> Widgets iOS</li>
+                        <li><span class="check">✓</span> Sugestões</li>
+                    </ul>
+                    <a href="#" class="btn-pricing primary">Assinar Premium</a>
+                </div>
+            </div>
+
+            <!-- EN -->
+            <div class="pricing-grid animate-on-scroll" data-lang="en" style="display:none;">
+                <div class="pricing-card">
+                    <h3>Free</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">To start your journey</p>
+                    <div class="price">$0 <span>/ forever</span></div>
+                    <div class="price-note">&nbsp;</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Up to 3 habits</li>
+                        <li><span class="check">✓</span> 1 checklist</li>
+                        <li><span class="check">✓</span> Basic statistics</li>
+                        <li><span class="check">✓</span> Achievements</li>
+                        <li><span class="check">✓</span> 100% offline</li>
+                        <li><span class="cross">✕</span> Sync</li>
+                        <li><span class="cross">✕</span> Widgets</li>
+                        <li><span class="cross">✕</span> Suggestions</li>
+                    </ul>
+                    <a href="#" class="btn-pricing outline">Start free</a>
+                </div>
+                <div class="pricing-card featured">
+                    <span class="pricing-badge">Popular</span>
+                    <h3 class="gradient-text">Premium</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">For those who are serious</p>
+                    <div class="price">$3.99 <span>/ month</span></div>
+                    <div class="price-note">or $29.99/year (save 37%)</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Unlimited habits</li>
+                        <li><span class="check">✓</span> Unlimited checklists</li>
+                        <li><span class="check">✓</span> Full statistics</li>
+                        <li><span class="check">✓</span> Achievements</li>
+                        <li><span class="check">✓</span> 100% offline</li>
+                        <li><span class="check">✓</span> Multi-device sync</li>
+                        <li><span class="check">✓</span> iOS Widgets</li>
+                        <li><span class="check">✓</span> Suggestions</li>
+                    </ul>
+                    <a href="#" class="btn-pricing primary">Subscribe Premium</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <div class="section-label">FAQ</div>
+                <h2 class="section-title">
+                    <span data-lang="pt">Perguntas <span class="gradient-text">frequentes</span></span>
+                    <span data-lang="en">Frequently asked <span class="gradient-text">questions</span></span>
+                </h2>
+            </div>
+
+            <!-- PT -->
+            <div class="faq-list animate-on-scroll" data-lang="pt">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        O app funciona sem internet?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><p>Sim! O MarkOne funciona 100% offline. Todos os seus dados são armazenados localmente no dispositivo. A sincronização na nuvem é um recurso opcional do plano Premium.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Posso usar em vários dispositivos?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><p>Sim, com o plano Premium. Seus hábitos, checklists, conquistas e configurações são sincronizados em tempo real entre iOS, Android e macOS.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Como funciona o plano gratuito?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><p>O plano gratuito permite criar até 3 hábitos e 1 checklist, com estatísticas básicas e conquistas. Funciona totalmente offline, sem necessidade de conta.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Posso cancelar a assinatura a qualquer momento?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><p>Sim! Cancele a qualquer momento pelas configurações da App Store ou Google Play. Você mantém o acesso Premium até o final do período pago.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Meus dados são seguros?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><p>Seus dados locais ficam apenas no seu dispositivo. Para usuários Premium, a sincronização usa Firebase (Google Cloud) com criptografia. Não vendemos nem compartilhamos dados pessoais.</p></div>
+                </div>
+            </div>
+
+            <!-- EN -->
+            <div class="faq-list animate-on-scroll" data-lang="en" style="display:none;">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Does the app work without internet?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><p>Yes! MarkOne works 100% offline. All your data is stored locally on the device. Cloud sync is an optional Premium feature.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Can I use it on multiple devices?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><p>Yes, with the Premium plan. Your habits, checklists, achievements and settings sync in real time across iOS, Android and macOS.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        How does the free plan work?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><p>The free plan lets you create up to 3 habits and 1 checklist, with basic statistics and achievements. It works fully offline, no account needed.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Can I cancel my subscription anytime?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><p>Yes! Cancel anytime through App Store or Google Play settings. You keep Premium access until the end of the paid period.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Is my data secure?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><p>Your local data stays only on your device. For Premium users, sync uses Firebase (Google Cloud) with encryption. We never sell or share personal data.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="images/logo-icon.png" alt="MarkOne">
+                    <p data-lang="pt">O primeiro passo da sua transformação digital. Rastreie hábitos, construa consistência e conquiste seus objetivos.</p>
+                    <p data-lang="en">The first step in your digital transformation. Track habits, build consistency and achieve your goals.</p>
+                </div>
+                <div>
+                    <h4 data-lang="pt">Legal</h4>
+                    <h4 data-lang="en">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="privacy-policy" data-lang="pt" class="inline">Política de Privacidade</a><a href="privacy-policy-en" data-lang="en" class="inline">Privacy Policy</a></li>
+                        <li><a href="terms-of-use" data-lang="pt" class="inline">Termos de Uso</a><a href="terms-of-use-en" data-lang="en" class="inline">Terms of Use</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 data-lang="pt">Contato</h4>
+                    <h4 data-lang="en">Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:capucholabs@gmail.com">capucholabs@gmail.com</a></li>
+                        <li><a href="https://github.com/MarcoOliv/markone" target="_blank" rel="noopener">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Capucho Labs. <span data-lang="pt" class="inline">Todos os direitos reservados.</span><span data-lang="en" class="inline">All rights reserved.</span></p>
+                <p data-lang="pt">Feito com ❤️ por Marco Capucho</p>
+                <p data-lang="en">Made with ❤️ by Marco Capucho</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            navbar.classList.toggle('scrolled', window.scrollY > 40);
+        });
+
+        // Mobile menu
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Language toggle
+        function toggleLang() {
+            const body = document.body;
+            const btn = document.getElementById('langToggle');
+            body.classList.toggle('lang-en');
+            btn.textContent = body.classList.contains('lang-en') ? 'PT' : 'EN';
+            document.documentElement.lang = body.classList.contains('lang-en') ? 'en' : 'pt-BR';
+        }
+
+        // FAQ accordion
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const isActive = item.classList.contains('active');
+            item.parentElement.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+        }
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.navbar-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
